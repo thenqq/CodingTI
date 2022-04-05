@@ -43,7 +43,7 @@ string bintext(string& text) {
 		}
 		bintxt = bintxt + to_string(t);
 	}
-	cout << bintxt;
+	//cout << bintxt;
 	cout << endl;
 	return bintxt;
 }
@@ -61,7 +61,7 @@ int main() {
 	reg = 3;
 
 	vector<string> sums;
-	vector<int> main, rezz;
+	vector<int> main;
 	string text, buffer, bitext; 
 	string rezult = "";
 
@@ -97,30 +97,33 @@ int main() {
 		int aa = a - '0';
 		int buf1 = 0;
 		int buf2 = 0;
+		char rego[] = "";
 		size_t len = 0;
 		string str;
-		main.insert(main.begin(), a);
+		main.insert(main.begin(), aa);
 		main.pop_back();
-		/*for (int j = 0; j < ks; j++) {
+
+		cout << "\nНаши регистры:" << endl;
+		for (int q = 0; q < main.size(); q++) {
+			cout << "[" << q + 1 << "]" << ": ";
+			cout << main[q] << endl;
+		}
+
+		cout << "\n цикл - " << i + 1;
+		for (int j = 0; j < ks; j++) {
 			len = sums[j].size();
+			buf1 = 0;
 			for (int k = 0; k < len; k++) {
-				buf1 = buf1 + main[(sums[j][k]) - 1];
+				cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
+				cout << "\n main[sums["<< j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+				buf1 = buf1 + main[sums[j][k] - '0' - 1];
 			}
 			buf1 = buf1 % 2;
 			stringstream ss;
 			ss << buf1;
 			str = ss.str();
-		}*/
-		for (int j = 0; j < ks; j++) {
-			buf1 = main[0] + main[1]; //этот цикл работает верно и ниже тоже вывод верный
+			rezult = rezult + str;
 		}
-		buf1 = buf1 % 2;
-		stringstream ss;
-		ss << buf1;
-		str = ss.str();
-		rezult = rezult + str;
-		//rezult.push_back(buf1);
-		//rezult.push_back(buf2);
 	}
 
 	cout << "\nrezult - " << rezult;
