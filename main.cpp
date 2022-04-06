@@ -62,7 +62,7 @@ int main() {
 
 	vector<string> sums;
 	vector<int> main;
-	string text, buffer, bitext; 
+	string text, buffer, bitext;
 	string rezult = "";
 
 	// сколько сумматоров
@@ -82,13 +82,16 @@ int main() {
 			sums.push_back(buffer);
 		}
 	}
-	//sumreg(sums, ks);
+
 
 	// текст для кодирования
 	cout << "\nВведите текст: ";
 	cin >> text;
 
 	// основные расчеты 
+
+	// кодирование 
+
 	bitext = bintext(text);
 	cout << "\nbitext - " << bitext << endl;
 	cout << "\nsize bitext - " << size(bitext) << endl;
@@ -115,7 +118,7 @@ int main() {
 			buf1 = 0;
 			for (int k = 0; k < len; k++) {
 				cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
-				cout << "\n main[sums["<< j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+				cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
 				buf1 = buf1 + main[sums[j][k] - '0' - 1];
 			}
 			buf1 = buf1 % 2;
@@ -126,7 +129,157 @@ int main() {
 		}
 	}
 
-	cout << "\nrezult - " << rezult;
+	// обнуление
+	if (main[0] == 1) {
+		for (int i = 0; i < reg; i++) {
+			int buf1 = 0;
+			size_t len = 0;
+			string str;
+			main.insert(main.begin(), 0);
+			main.pop_back();
+			cout << "\nНаши регистры:" << endl;
+			for (int q = 0; q < main.size(); q++) {
+				cout << "[" << q + 1 << "]" << ": ";
+				cout << main[q] << endl;
+			}
+			for (int j = 0; j < ks; j++) {
+				len = sums[j].size();
+				buf1 = 0;
+				for (int k = 0; k < len; k++) {
+					cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
+					cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+					buf1 = buf1 + main[sums[j][k] - '0' - 1];
+				}
+				buf1 = buf1 % 2;
+				stringstream ss;
+				ss << buf1;
+				str = ss.str();
+				rezult = rezult + str;
+			}
+		}
+	}
+	else if ((main[0] == 0) && (main[1] == 1)) {
+		for (int i = 0; i < reg - 1; i++) {
+			int buf1 = 0;
+			size_t len = 0;
+			string str;
+			main.insert(main.begin(), 0);
+			main.pop_back();
+			cout << "\nНаши регистры:" << endl;
+			for (int q = 0; q < main.size(); q++) {
+				cout << "[" << q + 1 << "]" << ": ";
+				cout << main[q] << endl;
+			}
+			for (int j = 0; j < ks; j++) {
+				len = sums[j].size();
+				buf1 = 0;
+				for (int k = 0; k < len; k++) {
+					cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
+					cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+					buf1 = buf1 + main[sums[j][k] - '0' - 1];
+				}
+				buf1 = buf1 % 2;
+				stringstream ss;
+				ss << buf1;
+				str = ss.str();
+				rezult = rezult + str;
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < reg - 2; i++) {
+			int buf1 = 0;
+			size_t len = 0;
+			string str;
+			main.insert(main.begin(), 0);
+			main.pop_back();
+			cout << "\nНаши регистры:" << endl;
+			for (int q = 0; q < main.size(); q++) {
+				cout << "[" << q + 1 << "]" << ": ";
+				cout << main[q] << endl;
+			}
+			for (int j = 0; j < ks; j++) {
+				len = sums[j].size();
+				buf1 = 0;
+				for (int k = 0; k < len; k++) {
+					cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
+					cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+					buf1 = buf1 + main[sums[j][k] - '0' - 1];
+				}
+				buf1 = buf1 % 2;
+				stringstream ss;
+				ss << buf1;
+				str = ss.str();
+				rezult = rezult + str;
+			}
+		}
+	}
+
+	cout << "\n Результат кодирования - " << rezult;
+
+	// декодирование витерби
+
+
+	for (int i = 0; i < size(rezult) / 2; i++) {
+
+		//выделение пары 
+		string rezcheck = "";
+		string rezb = "";
+		string rezb1 = "";
+		string rezb2 = "";
+		if (i == 0) {
+			rezb1 = rezult[i];
+			rezb2 = rezult[i + 1];
+		}
+		else {
+			rezb1 = rezult[i * 2];
+			rezb2 = rezult[i * 2 + 1];
+		}
+		rezb = rezb1 + rezb2;
+		cout << "\n rezb номер " << i << " - " << rezb;
+
+		// сравнение пары по веткам
+
+		for (int j = 0; j < 2; j++) {
+
+			int buf1 = 0;
+			int buf2 = 0;
+			char rego[] = "";
+			size_t len = 0;
+			string str;
+
+
+			if (j == 0) {
+				main.insert(main.begin(), 0);
+				main.pop_back();
+
+				cout << "\nНаши регистры:" << endl;
+				for (int q = 0; q < main.size(); q++) {
+					cout << "[" << q + 1 << "]" << ": ";
+					cout << main[q] << endl;
+				}
+				cout << "\n цикл - " << i + 1;
+				for (int j = 0; j < ks; j++) {
+					len = sums[j].size();
+					buf1 = 0;
+					for (int k = 0; k < len; k++) {
+						cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
+						cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];
+						buf1 = buf1 + main[sums[j][k] - '0' - 1];
+					}
+					buf1 = buf1 % 2;
+					stringstream ss;
+					ss << buf1;
+					str = ss.str();
+					rezcheck = rezcheck + str;
+				}
+			}
+			else {
+
+			}
+		}
+
+	}
 
 	return 0;
 }
