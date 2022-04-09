@@ -89,7 +89,7 @@ string bintext(string qwe) {
 		bintxt = bintxt + to_string(t);
 		std::cout << "ASCII symb - " << asdf << endl;
 	}
-	
+
 	std::cout << endl;
 	return bintxt;
 }
@@ -223,7 +223,6 @@ int main() {
 					stringstream ss;
 					ss << buf1;
 					str = ss.str();
-					//rezult = rezult + str;
 				}
 			}
 		}
@@ -244,14 +243,13 @@ int main() {
 					buf1 = 0;
 					for (int k = 0; k < len; k++) {
 						/*std::cout << "\n sums[" << j << "][" << k << "] - " << sums[j][k];
-						//std::cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];*/
+						std::cout << "\n main[sums[" << j << "][" << k << "] - '0' - 1] - " << main[sums[j][k] - '0' - 1];*/
 						buf1 = buf1 + main[sums[j][k] - '0' - 1];
 					}
 					buf1 = buf1 % 2;
 					stringstream ss;
 					ss << buf1;
 					str = ss.str();
-					//rezult = rezult + str;
 				}
 			}
 		}
@@ -279,7 +277,6 @@ int main() {
 					stringstream ss;
 					ss << buf1;
 					str = ss.str();
-					//rezult = rezult + str;
 				}
 			}
 		}
@@ -290,10 +287,13 @@ int main() {
 
 		string strokadekodera = "";
 		vector<string> dekoder;
-		for (int p = 0; p < 1; p++) {
+
+		// ниже версия дерева для двух сумматоров
+
+		/*for (int p = 0; p < 1; p++) {
 			for (int i = 0; i < size(rezult) / 2; i++) {
 
-				//выделение пары 
+				//выделение пары
 				string rezcheck = "";
 				string rezb = "";
 				string rezb1 = "";
@@ -308,14 +308,14 @@ int main() {
 					rezb2 = rezult[i * 2 + 1];
 				}
 				rezb = rezb1 + rezb2;
-				//std::cout << "\n Пара битов номер " << i + 1 << " - " << rezb << endl;
+				/*std::cout << "\n Пара битов номер " << i + 1 << " - " << rezb << endl;
 
-				// вывод регистров перед сравнением 
-				/*std::cout << "\nНаши регистры перед сравнением  :" << endl;
+				// вывод регистров перед сравнением
+				std::cout << "\nНаши регистры перед сравнением  :" << endl;
 				for (int q = 0; q < main.size(); q++) {
 					std::cout << "[" << q + 1 << "]" << ": ";
 					std::cout << main[q] << endl;
-				}*/
+				}
 
 				// сравнение пары по веткам
 
@@ -336,7 +336,7 @@ int main() {
 						for (int q = 0; q < main.size(); q++) {
 							std::cout << "[" << q + 1 << "]" << ": ";
 							std::cout << main[q] << endl;
-						}*/
+						}
 						for (int j = 0; j < ks; j++) {
 							len = sums[j].size();
 							buf1 = 0;
@@ -372,7 +372,7 @@ int main() {
 						for (int q = 0; q < main.size(); q++) {
 							std::cout << "[" << q + 1 << "]" << ": ";
 							std::cout << main[q] << endl;
-						}*/
+						}
 						for (int j = 0; j < ks; j++) {
 							len = sums[j].size();
 							buf1 = 0;
@@ -400,24 +400,131 @@ int main() {
 				for (int q = 0; q < main.size(); q++) {
 					std::cout << "[" << q + 1 << "]" << ": ";
 					std::cout << main[q] << endl;
-				}*/
+				}
 			}
 			size_t phaha = size(strokadekodera);
 			int count = 0;
 			for (int q = 0; q < size(text); q++) {
 				string howtf = "";
 				/*cout << "size rez - " << (phaha) << endl;
-				cout << "size text - " << size(text) << endl;*/
+				cout << "size text - " << size(text) << endl;
 				for (int w = (int)phaha / (int)size(text) - 1; w > -1; w--) {
 					/*cout << "count - " << count << endl;
-					cout << w << endl;*/
+					cout << w << endl;
 					howtf = howtf + strokadekodera[count];
 					count++;
 				}
 				dekoder.push_back(howtf);
 			}
-		}
+		}*/
 
+		// тут ниже полная
+
+		int counttodec = 0;
+		//string strokadekodera = "";
+		for (int i = 0; i < size(rezult) / ks; i++) {
+			string rezb = "";
+			string rezb1 = "";
+			string rezb2 = "";
+
+			//std::cout << "\n strokadekodera - " << strokadekodera;
+			// берем группу элементов
+
+			for (int j = 0; j < ks; j++) {
+				rezb += rezult[counttodec];
+				counttodec++;
+			}
+
+			//std::cout << "\n цикл <" << i << "> - " << rezb;
+			for (int j = 0; j < 2; j++) {
+
+				int buf1 = 0;
+				int buf2 = 0;
+				size_t len = 0;
+				string str = "";
+
+				if (j == 0) {
+					string rezb1 = "";
+					string str = "";
+					main.insert(main.begin(), 0);
+					main.pop_back();
+
+					/*std::cout << "\nНаши регистры + 0 :" << endl;
+					for (int q = 0; q < main.size(); q++) {
+						std::cout << "[" << q + 1 << "]" << ": ";
+						std::cout << main[q] << endl;
+					}*/
+					for (int j = 0; j < ks; j++) {
+						len = sums[j].size();
+						buf1 = 0;
+						for (int k = 0; k < len; k++) {
+							buf1 = buf1 + main[sums[j][k] - '0' - 1];
+						}
+						buf1 = buf1 % 2;
+						stringstream ss;
+						ss << buf1;
+						str = ss.str();
+						rezb1 = rezb1 + str;
+					}
+					main.insert(main.begin(), 0);
+					main.erase(main.begin() + 1);
+					//std::cout << "\n Пара битов при добавление в регистры 0 - " << rezb1 << endl;
+					if (rezb1 != rezb) {
+						main.insert(main.begin(), 0);
+						main.erase(main.begin() + 1);
+					}
+					else {
+						j++;
+						strokadekodera = strokadekodera + "0";
+
+					}
+				}
+				else {
+					string rezb2 = "";
+					string str = "";
+					main.insert(main.begin(), 1);
+					main.erase(main.begin() + 1);
+
+					/*std::cout << "\nНаши регистры + 1 :" << endl;
+					for (int q = 0; q < main.size(); q++) {
+						std::cout << "[" << q + 1 << "]" << ": ";
+						std::cout << main[q] << endl;
+					}*/
+					for (int j = 0; j < ks; j++) {
+						len = sums[j].size();
+						buf1 = 0;
+						for (int k = 0; k < len; k++) {
+							buf1 = buf1 + main[sums[j][k] - '0' - 1];
+						}
+						buf1 = buf1 % 2;
+						stringstream ss;
+						ss << buf1;
+						str = ss.str();
+						rezb2 = rezb2 + str;
+					}
+					//std::cout << "\n Пара битов при добавление в регистры 1 - " << rezb2 << endl;
+					if (rezb2 != rezb) {
+						main.insert(main.begin(), 0);
+						main.erase(main.begin() + 1);
+					}
+					else {
+						strokadekodera = strokadekodera + "1";
+					}
+				}
+			}
+
+
+		}
+		int count = 0;
+		for (int w = 0; w < size(text); w++) {
+			string howtf = "";
+			for (int q = 0; q < ((size(strokadekodera)) / (size(text))); q++) {
+				howtf += strokadekodera[count];
+				count++;
+			}
+			dekoder.push_back(howtf);
+		}
+		//std::cout << "\n strokadekodera - " << strokadekodera;
 		std::cout << "\n Исходный текст в бинарке - " << bitext;
 		std::cout << "\n Декодируемый текст в бинарке - ";
 		for (int i = 0; i < dekoder.size(); i++) {
@@ -435,20 +542,9 @@ int main() {
 			int pqwe = atoi(decoder(dekoder[i]).c_str());
 			char asciiChar = static_cast<char>(pqwe);
 			std::cout << asciiChar;
-
 		}
 
-
-		
-
-		//int pqwe = atoi(decoder(strokadekodera).c_str());
-
-		//char asciiChar = static_cast<char>(pqwe);
-
-		//strcpy_s(symbols, decoder(strokadekodera).c_str());
-		//std::cout << "\nCимвол из ascii в текст - " << asciiChar << endl;
 	}
-
 
 	return 0;
 }
