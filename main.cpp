@@ -26,8 +26,19 @@ char binarysymbol(char symb) {
 
 	for (size_t i = 0; i < 1; ++i)
 	{
-		if (s >= 48 && s <= 57) {
-			std::cout << s;
+		if (s >= 32 && s <= 63) {
+			asd = (int)(s & 255);
+			asdf = (int)(s & 255);
+			t = 0;
+			d = 1;
+			t += 1 * 100000;
+			while (asd >= 2) {
+				t += (asd % 2) * d;
+				asd = asd / 2;
+				d = d * 10;
+			}
+			//std::cout << "  " << s << " - <" << t << ">" << endl;
+			//indexs.push_back(1);
 		}
 		else {
 			asd = (int)(s & 255);
@@ -45,12 +56,33 @@ char binarysymbol(char symb) {
 				asd = asd / 2;
 				d = d * 10;
 			}
+			//std::cout << "  " << s << " - <" << t << ">" << endl;
+			//indexs.push_back(2);
+
 		}
 		bintxt = t;
 	}
 	//std::cout << "\n ASCII symb - " << asdf;
 	std::cout << endl;
 	return bintxt;
+}
+
+string gotindex(string txt) {
+	string s = txt;
+	string ert = "";
+	for (size_t i = 0; i < s.size(); ++i)
+	{
+		if (s[i] >= 32 && s[i] <= 63) {
+			ert += "1";
+		}
+		else if (s[i] > 63 && s[i] < 128) {
+			ert += "2";
+		}
+		else {
+			ert += "3";
+		}
+	}
+	return ert;
 }
 
 // функция для перевода текста в бинарку
@@ -62,11 +94,20 @@ string bintext(string qwe) {
 	int asd, asdf;
 	int t = 0;
 	int d = 1;
-
 	for (size_t i = 0; i < s.size(); ++i)
 	{
-		if (s[i] >= 48 && s[i] <= 57) {
-			std::cout << s[i];
+		if (s[i] >= 32 && s[i] <= 63) {
+			asd = (int)(s[i] & 255);
+			asdf = (int)(s[i] & 255);
+			t = 0;
+			d = 1;
+			t += 1 * 100000;
+			while (asd >= 2) {
+				t += (asd % 2) * d;
+				asd = asd / 2;
+				d = d * 10;
+			}
+			std::cout << "  " << s[i] << " - <" << t << ">" << endl;
 		}
 		else {
 			asd = (int)(s[i] & 255);
@@ -85,6 +126,7 @@ string bintext(string qwe) {
 				d = d * 10;
 			}
 			std::cout << "  " << s[i] << " - <" << t << ">" << endl;
+
 		}
 		bintxt = bintxt + to_string(t);
 		std::cout << "ASCII symb - " << asdf << endl;
@@ -128,20 +170,53 @@ int main() {
 	// переменные
 	int ks, reg;
 
-	reg = 3;
 
 	vector<string> sums, binarytext;
 	vector<int> main;
+	vector<string> indexs;
 	string text, buffer, bitext;
 	string rezult = "";
+	
 
+	// сколько регистров
+	
+	std::cout << "Количество регистров: ";
+	while (1) {
+		string ksc;
+		double value;
+		std::cout << "\nВвод - " << endl;
+		std::getline(std::cin, ksc);
+		stringstream aksc{ ksc };
+		char symbol;
+		while (1) {
+			symbol = aksc.peek();
+			if (symbol == '\377') {
+				break;
+			}
+			if (symbol >= '0' && symbol <= '9') {
+				aksc >> value;
+				reg = value;
+				continue;
+			}
+			else {
+				aksc.ignore();
+				continue;
+			}
+		}
+		if (reg != 0) {
+			break;
+		}
+		else {
+			std::cout << "\nНекорректный ввод. Введите число.";
+		}
+	}
 	// сколько сумматоров
 	std::cout << "Количество сумматоров: ";
 	while (1) {
 		string ksc;
 		double value;
 		std::cout << "\nВвод - " << endl;
-		getline(std::cin, ksc);
+		std::getline(std::cin, ksc);
 		stringstream aksc{ ksc };
 		char symbol;
 		while (1) {
@@ -185,8 +260,8 @@ int main() {
 		while (1) {
 			string ksc;
 			double value;
-			std::cout << "\nВвод - " << endl;
-			getline(std::cin, ksc);
+			std::cout << "Ввод - " << endl;
+			std::getline(std::cin, ksc);
 			stringstream aksc{ ksc };
 			char symbol;
 			int qwe = 0;
@@ -222,22 +297,26 @@ int main() {
 	std::cout << endl;
 
 	// текст для кодирования
+
 	std::cout << "\nВведите текст: ";
-	std::cin >> text;
+	std::getline(std::cin, text);
 
 	// основные расчеты 
 
 	// кодирование 
 
 	bitext = bintext(text);
+	string omen = gotindex(text);
+	indexs.push_back(omen);
+
+	std::cout << "\n omen - " << indexs[0] << endl;
+
 	std::cout << " Текст в бинарке - " << bitext << endl;
-
 	for (int u = 0; u < 1; u++) {
-
+		
 		char symboltobi;
 		symboltobi = binarysymbol(text[u]);
 		string bisymbol;
-
 		for (int i = 0; i < size(bitext); i++) {
 			char a = bitext[i];
 			int aa = a - '0';
@@ -494,7 +573,6 @@ int main() {
 			string rezb1 = "";
 			string rezb2 = "";
 
-			//std::cout << "\n strokadekodera - " << strokadekodera;
 			// берем группу элементов
 
 			for (int j = 0; j < ks; j++) {
@@ -578,19 +656,50 @@ int main() {
 						strokadekodera = strokadekodera + "1";
 					}
 				}
+				if (size(rezult) % ks != 0) {
+
+				}
 			}
 
 
 		}
 		int count = 0;
-		for (int w = 0; w < size(text); w++) {
+		/*for (int w = 0; w < size(text); w++) {
 			string howtf = "";
 			for (int q = 0; q < ((size(strokadekodera)) / (size(text))); q++) {
 				howtf += strokadekodera[count];
 				count++;
 			}
 			dekoder.push_back(howtf);
+		}*/
+
+		for (int w = 0; w < size(text); w++) {
+			string howtf = "";
+
+			int yuio = omen[w] - '0';
+			if (yuio == 2) {
+				for (int q = 0; q < 7; q++) {
+					howtf += strokadekodera[count];
+					count++;
+				}
+				dekoder.push_back(howtf);
+			}
+			else if (yuio == 1) {
+				for (int q = 0; q < 6; q++) {
+					howtf += strokadekodera[count];
+					count++;
+				}
+				dekoder.push_back(howtf);
+			}
+			else if (yuio == 3) {
+				for (int q = 0; q < 8; q++) {
+					howtf += strokadekodera[count];
+					count++;
+				}
+				dekoder.push_back(howtf);
+			}
 		}
+
 		//std::cout << "\n strokadekodera - " << strokadekodera;
 		//std::cout << "\n Исходный текст в бинарке - " << bitext << endl;
 		std::cout << "\n Декодируемый текст в бинарке - ";
