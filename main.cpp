@@ -136,8 +136,37 @@ int main() {
 	string rezult = "";
 
 	// сколько сумматоров
-	std::cout << "Введите количество сумматоров: ";
-	cin >> ks;
+	std::cout << "Количество сумматоров: ";
+	while (1) {
+		string ksc;
+		double value;
+		std::cout << "\nВвод - " << endl;
+		getline(std::cin, ksc);
+		stringstream aksc{ ksc };
+		char symbol;
+		while (1) {
+			symbol = aksc.peek();
+			if (symbol == '\377') {
+				break;
+			}
+			if (symbol >= '0' && symbol <= '9') {
+				aksc >> value;
+				ks = value;
+				continue;
+			}
+			else {
+				aksc.ignore();
+				continue;
+			}
+		}
+		if (ks != 0) {
+			break;
+		}
+		else {
+			std::cout << "\nНекорректный ввод. Введите число.";
+		}
+	}
+	std::cout << "Количество сумматоров - " << ks << endl;
 
 	// заполнение регистров нулями
 	for (int i = 0; i < reg; i++) {
@@ -146,24 +175,62 @@ int main() {
 
 	// заполнение регистров для сумматоров
 	std::cout << "\nВведите регистры сумматоров: " << endl;
-	for (int i = 0; i < ks + 1; i++) {
-		getline(cin, buffer);
+	/*for (int i = 0; i < ks; i++) {
+		getline(std::cin, buffer);
 		if (buffer.size() > 0) {
 			sums.push_back(buffer);
 		}
+	}*/
+	for (int i = 0; i < ks; i++) {
+		while (1) {
+			string ksc;
+			double value;
+			std::cout << "\nВвод - " << endl;
+			getline(std::cin, ksc);
+			stringstream aksc{ ksc };
+			char symbol;
+			int qwe = 0;
+			while (1) {
+				symbol = aksc.peek();
+				if (symbol == '\377') {
+					break;
+				}
+				if (symbol >= '0' && symbol <= '9') {
+					aksc >> value;
+					qwe = value;
+					sums.push_back(to_string(qwe));
+					continue;
+				}
+				else {
+					aksc.ignore();
+					continue;
+				}
+			}
+			if (qwe != 0) {
+				break;
+			}
+			else {
+				std::cout << "\nНекорректный ввод. Введите число.";
+			}
+		}
 	}
-
+	
+	std::cout << "\n Сумматоры:";
+	for (int i = 0; i < sums.size(); i++) {
+		cout << "\n[" << i << "] - " << sums[i];
+	}
+	std::cout << endl;
 
 	// текст для кодирования
 	std::cout << "\nВведите текст: ";
-	cin >> text;
+	std::cin >> text;
 
 	// основные расчеты 
 
 	// кодирование 
 
 	bitext = bintext(text);
-	std::cout << "\n Текст в бинарке - " << bitext << endl;
+	std::cout << " Текст в бинарке - " << bitext << endl;
 
 	for (int u = 0; u < 1; u++) {
 
@@ -281,7 +348,7 @@ int main() {
 			}
 		}
 
-		std::cout << "\n Результат кодирования - " << rezult << endl;
+		std::cout << " Результат кодирования - " << rezult << endl;
 
 		// декодирование витерби
 
@@ -525,11 +592,13 @@ int main() {
 			dekoder.push_back(howtf);
 		}
 		//std::cout << "\n strokadekodera - " << strokadekodera;
-		std::cout << "\n Исходный текст в бинарке - " << bitext;
+		//std::cout << "\n Исходный текст в бинарке - " << bitext << endl;
 		std::cout << "\n Декодируемый текст в бинарке - ";
 		for (int i = 0; i < dekoder.size(); i++) {
 			cout << dekoder[i];
 		}
+		std::cout << endl;
+
 
 		std::cout << "\n Из бинарки в ASCII - ";
 		for (int i = 0; i < dekoder.size(); i++) {
@@ -543,7 +612,7 @@ int main() {
 			char asciiChar = static_cast<char>(pqwe);
 			std::cout << asciiChar;
 		}
-
+		std::cout << endl;
 	}
 
 	return 0;

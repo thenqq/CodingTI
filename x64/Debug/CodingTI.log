@@ -1,2 +1,9 @@
 ﻿  main.cpp
+D:\VSrepos\CodingTI\main.cpp(103,30): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(110,2): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(112,14): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(113,14): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(154,10): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(201,12): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+D:\VSrepos\CodingTI\main.cpp(610,9): warning C4101: symbols: неиспользованная локальная переменная
   CodingTI.vcxproj -> D:\VSrepos\CodingTI\x64\Debug\CodingTI.exe
